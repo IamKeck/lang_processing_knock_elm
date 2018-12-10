@@ -68,14 +68,11 @@ oneThree =
 
         countLatinChars =
             String.toList >> removeNotLatinChars >> List.length
-
-        numListToString =
-            List.map String.fromInt >> String.join ", "
     in
     base
         |> String.words
         |> List.map countLatinChars
-        |> numListToString
+        |> Debug.toString
 
 
 oneFour : Dict.Dict String Int
