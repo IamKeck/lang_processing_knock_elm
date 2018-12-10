@@ -216,7 +216,7 @@ oneNine =
                 extractLettersToShuffle word
                     |> String.toList
                     |> shuffle
-                    |> Random.andThen (concatShuffled word >> Random.constant)
+                    |> Random.map (concatShuffled word)
 
         foldGenerator : List (Random.Generator String) -> Random.Generator (List String)
         foldGenerator =
