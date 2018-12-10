@@ -173,8 +173,8 @@ oneEight =
     String.map convert
 
 
-oneNine : String -> Cmd Msg
-oneNine s =
+oneNine : String -> Random.Generator String
+oneNine =
     let
         extractLettersToShuffle : String -> String
         extractLettersToShuffle =
@@ -195,17 +195,18 @@ oneNine s =
                     |> shuffle
                     |> Random.andThen (concatShuffled word >> Random.constant)
 
-        generatorList : List (Random.Generator String)
-        generatorList =
-            String.words s |> List.map shuffleWord
+        foldGenerator : List (Random.Generator String) -> Random.Generator (List String)
+        foldGenerator =
+            List.foldr (Random.map2 (::)) (Random.constant [])
 
-        foldGenerator : Random.Generator String -> Random.Generator (List String) -> Random.Generator (List String)
-        foldGenerator wordGen accGen =
-            Random.map2 (::) wordGen accGen
+        concatWords : Random.Generator (List String) -> Random.Generator String
+        concatWords =
+            Random.map <| String.join " "
     in
-    List.foldl foldGenerator (Random.constant []) generatorList
-        |> Random.map (List.reverse >> String.join " ")
-        |> Random.generate GotOneNine
+    String.words
+        >> List.map shuffleWord
+        >> foldGenerator
+        >> concatWords
 
 
 type alias Model =
