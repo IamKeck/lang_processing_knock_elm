@@ -189,7 +189,7 @@ oneNine s =
 
         shuffleWord : String -> Random.Generator String
         shuffleWord word =
-            if String.length word < 3 then
+            if String.length word < 5 then
                 Random.constant word
 
             else
