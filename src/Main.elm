@@ -132,6 +132,9 @@ oneSix =
 
         applyAndToString f =
             f x y |> Debug.toString
+
+        hasSe =
+            Set.member [ 's', 'e' ]
     in
     H.div []
         [ H.p []
@@ -151,6 +154,26 @@ oneSix =
                 "差集合は"
                     ++ applyAndToString Set.diff
                     ++ "です"
+            ]
+        , H.p []
+            [ H.text <|
+                "[se]はXに"
+                    ++ (if hasSe x then
+                            "含まれます"
+
+                        else
+                            "含まれません"
+                       )
+            ]
+        , H.p []
+            [ H.text <|
+                "[se]はYに"
+                    ++ (if hasSe y then
+                            "含まれます"
+
+                        else
+                            "含まれません"
+                       )
             ]
         ]
 
