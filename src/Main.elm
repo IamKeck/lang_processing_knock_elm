@@ -210,7 +210,7 @@ oneNine =
 
 
 type alias Model =
-    Maybe String
+    String
 
 
 type Msg
@@ -223,8 +223,12 @@ type alias Flags =
 
 main : Program Flags Model Msg
 main =
+    let
+        oneNineCmd =
+            Random.generate GotOneNine <| oneNine "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind ."
+    in
     element
-        { init = always ( Nothing, oneNine "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind ." )
+        { init = always ( "", oneNineCmd )
         , view = view
         , update = update
         , subscriptions = always Sub.none
@@ -235,7 +239,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg _ =
     case msg of
         GotOneNine string ->
-            ( Just string, Cmd.none )
+            ( string, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -276,5 +280,5 @@ view m =
         , H.h2 [] [ H.text "08" ]
         , H.p [] [ H.text <| oneEight "No, I am your father" ]
         , H.h2 [] [ H.text "09" ]
-        , H.p [] [ H.text <| Maybe.withDefault "" m ]
+        , H.p [] [ H.text m ]
         ]
